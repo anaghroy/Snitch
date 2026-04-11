@@ -1,5 +1,3 @@
-@use "../../styles/responsive/responsive" as res;
-
 .loading-page-container {
   height: 100vh;
   width: 100vw;
@@ -21,17 +19,21 @@
   font-family: var(--font-overall-bold), sans-serif;
   font-size: 1.2em;
   font-weight: 600;
-  user-select: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
   transform: scale(1.2);
-  
-  @include res.tablet {
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .loading-wrapper {
     height: 100px;
     margin: 1.5rem;
     font-size: 1.4em;
     transform: scale(1.6);
   }
-  
-  @include res.desktop {
+}
+@media (min-width: 1024px) {
+  .loading-wrapper {
     height: 120px;
     margin: 2rem;
     font-size: 1.6em;
@@ -66,37 +68,44 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
-    radial-gradient(circle at 50% 50%, #ff0 0%, transparent 50%),
-    radial-gradient(circle at 45% 45%, #f00 0%, transparent 45%),
-    radial-gradient(circle at 55% 55%, #0ff 0%, transparent 45%),
-    radial-gradient(circle at 45% 55%, #0f0 0%, transparent 45%),
-    radial-gradient(circle at 55% 45%, #00f 0%, transparent 45%);
+  background-image: radial-gradient(circle at 50% 50%, #ff0 0%, transparent 50%), radial-gradient(circle at 45% 45%, #f00 0%, transparent 45%), radial-gradient(circle at 55% 55%, #0ff 0%, transparent 45%), radial-gradient(circle at 45% 55%, #0f0 0%, transparent 45%), radial-gradient(circle at 55% 45%, #00f 0%, transparent 45%);
   mask: radial-gradient(circle at 50% 50%, transparent 0%, transparent 10%, black 25%);
   -webkit-mask: radial-gradient(circle at 50% 50%, transparent 0%, transparent 10%, black 25%);
-  animation: 
-    transformAnim 2s infinite alternate cubic-bezier(0.6, 0.8, 0.5, 1),
-    opacityAnim 4s infinite;
+  animation: transformAnim 2s infinite alternate cubic-bezier(0.6, 0.8, 0.5, 1), opacityAnim 4s infinite;
 }
 
 @keyframes transformAnim {
-  0% { transform: translate(-55%); }
-  100% { transform: translate(55%); }
+  0% {
+    transform: translate(-55%);
+  }
+  100% {
+    transform: translate(55%);
+  }
 }
-
 @keyframes opacityAnim {
-  0%, 100% { opacity: 0; }
-  15% { opacity: 1; }
-  65% { opacity: 0; }
+  0%, 100% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  65% {
+    opacity: 0;
+  }
 }
-
 @keyframes letterAnim {
-  0% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
   5% {
     opacity: 1;
     text-shadow: 0 0 4px var(--color-primary);
     transform: scale(1.1) translateY(-2px);
   }
-  20% { opacity: 0.2; }
-  100% { opacity: 0; }
-}
+  20% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 0;
+  }
+}/*# sourceMappingURL=LoadingLines.css.map */
