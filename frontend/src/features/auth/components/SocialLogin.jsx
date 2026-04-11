@@ -1,9 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const SocialLogin = ({ variants }) => {
-    // We can accept framer-motion variants as a prop to animate the elements
-    
+const SocialLogin = ({ variants }) => {    
     // In actual implementation, these functions would redirect to OAuth endpoints
     const handleGoogleLogin = () => {
         window.location.href = `${import.meta.env.VITE_API_URL || "http://localhost:3000/api/auth"}/google`;

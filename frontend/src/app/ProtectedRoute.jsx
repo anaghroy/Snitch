@@ -1,19 +1,20 @@
-import React from 'react';
-import { Navigate, Outlet } from 'react-router';
-import { useSelector } from 'react-redux';
+import React from "react";
+import { Navigate, Outlet } from "react-router";
+import { useSelector } from "react-redux";
+import LoadingLines from "../components/ui/LoadingLines";
 
 const ProtectedRoute = () => {
-    const { user, loading } = useSelector(state => state.auth);
+  const { user, loading } = useSelector((state) => state.auth);
 
-    if (loading) {
-        return <div className="loading-screen" style={{height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Loading...</div>;
-    }
+  if (loading) {
+    return <LoadingLines />;
+  }
 
-    if (!user) {
-        return <Navigate to="/login" replace />;
-    }
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
-    return <Outlet />; // Render child routes if user exists
+  return <Outlet />; // Render child routes if user exists
 };
 
 export default ProtectedRoute;
