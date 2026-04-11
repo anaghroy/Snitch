@@ -1,0 +1,39 @@
+/*All fonts SRC*/
+@font-face {
+  font-family: heading;
+  src: url(../../assets/Fonts/DMSans_18pt-Regular.ttf);
+}
+@font-face {
+  font-family: sub-heading;
+  src: url(../../assets/Fonts/DMSans_18pt-SemiBold.ttf);
+}
+@font-face {
+  font-family: main-heading;
+  src: url(../../assets/Fonts/Inter-Regular.otf);
+}
+@font-face {
+  font-family: sub-body;
+  src: url(../../assets/Fonts/Inter-SemiBold.otf);
+}
+@font-face {
+  font-family: overall-medium;
+  src: url(../../assets/Fonts/manrope-medium.otf);
+}
+@font-face {
+  font-family: body;
+  src: url(../../assets/Fonts/manrope-regular.otf);
+}
+@font-face {
+  font-family: overall-bold;
+  src: url(../../assets/Fonts/manrope-semibold.otf);
+}
+
+:root {
+ --font-heading: "heading", sans-serif;
+ --font-sub-heading: "sub-heading", sans-serif;
+ --font-main-heading: "main-heading", sans-serif;
+ --font-sub-body: "sub-body", sans-serif;
+ --font-overall-medium: "overall-medium", sans-serif;
+ --font-body: "body", sans-serif;
+ --font-overall-bold: "overall-bold", sans-serif;
+}
