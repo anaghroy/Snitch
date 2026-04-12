@@ -27,7 +27,7 @@ app.use(passport.initialize());
 passport.use(new GoogleStrategy({
     clientID: config.GOOGLE_CLIENT_ID,
     clientSecret: config.GOOGLE_CLIENT_SECRET,
-    callbackURL: "/api/auth/google/callback"
+    callbackURL: "http://localhost:3000/api/auth/google/callback"
 }, (accessToken, refreshToken, profile, done) => {
     return done(null, profile);
 }));
@@ -36,7 +36,7 @@ passport.use(new GoogleStrategy({
 passport.use(new GitHubStrategy({
     clientID: config.GITHUB_CLIENT_ID,
     clientSecret: config.GITHUB_CLIENT_SECRET,
-    callbackURL: "/api/auth/github/callback"
+    callbackURL: "http://localhost:3000/api/auth/github/callback"
 }, (accessToken, refreshToken, profile, done) => {
     return done(null, profile);
 }));

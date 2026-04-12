@@ -1,5 +1,4 @@
 import React from "react";
-import "./LoadingLines.scss";
 
 const LoadingLines = () => {
   const letters = "Loading".split("");

@@ -18,7 +18,7 @@ async function sendTokenResponse(user, res, message) {
     httpOnly: true,
     secure: true,
     sameSite: "strict",
-    maxAge: 7 * 24 * 60 * 60 * 1000
+    maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
   res.status(200).json({
@@ -87,18 +87,23 @@ export const getMe = async (req, res) => {
     message: "User details fetched successfully",
     user,
   });
-}
+};
 
 export const googleCallback = async (req, res) => {
   try {
     const profile = req.user;
-    
-    const email = profile.emails && profile.emails[0] ? profile.emails[0].value : null;
+
+    const email =
+      profile.emails && profile.emails[0] ? profile.emails[0].value : null;
     const fullname = profile.displayName || "Google User";
     const googleId = profile.id;
+    const photo =
+      profile.photos && profile.photos[0] ? profile.photos[0].value : null;
 
     if (!email) {
-      return res.status(400).json({ message: "No email associated with this Google account" });
+      return res
+        .status(400)
+        .json({ message: "No email associated with this Google account" });
     }
 
     let user = await userModel.findOne({ email });
@@ -108,14 +113,16 @@ export const googleCallback = async (req, res) => {
         email,
         fullname,
         googleId,
-        role: "buyer"
+        photo,
+        role: "buyer",
       });
     } else if (!user.googleId) {
       user.googleId = googleId;
+      user.photo = photo;
       await user.save();
     }
 
-    await sendTokenResponse(user, res, "Logged in with Google successfully");
+    res.redirect("http://localhost:5173");
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error during Google auth" });
@@ -125,8 +132,11 @@ export const googleCallback = async (req, res) => {
 export const githubCallback = async (req, res) => {
   try {
     const profile = req.user;
-    
-    const email = profile.emails && profile.emails.length > 0 ? profile.emails[0].value : `${profile.username}@github.com`;
+
+    const email =
+      profile.emails && profile.emails.length > 0
+        ? profile.emails[0].value
+        : `${profile.username}@github.com`;
     const fullname = profile.displayName || profile.username;
     const githubId = profile.id;
 
@@ -137,14 +147,14 @@ export const githubCallback = async (req, res) => {
         email,
         fullname,
         githubId,
-        role: "buyer"
+        role: "buyer",
       });
     } else if (!user.githubId) {
       user.githubId = githubId;
       await user.save();
     }
 
-    await sendTokenResponse(user, res, "Logged in with GitHub successfully");
+    res.redirect("http://localhost:5173");
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error during GitHub auth" });
@@ -153,17 +163,19 @@ export const githubCallback = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    const token = req.cookies?.token || (req.headers.authorization && req.headers.authorization.split(" ")[1]);
+    const token =
+      req.cookies?.token ||
+      (req.headers.authorization && req.headers.authorization.split(" ")[1]);
 
     if (!token) {
       return res.status(400).json({ message: "No token provided" });
     }
 
     const decoded = jwt.decode(token);
-    
+
     if (decoded && decoded.exp) {
       const expiresIn = decoded.exp - Math.floor(Date.now() / 1000);
-      
+
       if (expiresIn > 0) {
         await redisClient.setEx(`blacklist:${token}`, expiresIn, "blacklisted");
       }

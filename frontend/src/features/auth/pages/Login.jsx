@@ -6,7 +6,7 @@ import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
 import { login } from '../service/auth.api.js';
 import { setLoading, setUser, setError } from '../state/auth.slice.js';
 import loginBg from '../../../assets/images/bg-login.jpg';
-import SocialLogin from '../components/SocialLogin';
+import SocialLogin from '../../../components/ui/SocialLogin.jsx';
 
 const Login = () => {
     const [email, setEmail] = useState('');
