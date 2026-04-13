@@ -141,6 +141,9 @@ const Register = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
+                  minLength={6}
+                  maxLength={12}
+                  pattern="[A-Z][a-z]*[0-9]*"
                 />
                 <button
                   type="button"

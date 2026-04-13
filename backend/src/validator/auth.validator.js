@@ -10,26 +10,36 @@ function validateRequest(req, res, next) {
 }
 
 export const validateRegisterUser = [
-  body("email").isEmail().withMessage("Invalid email format"),
+  body("email").isEmail().withMessage("Invalid email format").normalizeEmail(),
   body("contact")
     .notEmpty()
     .withMessage("Contact is required")
-    .matches(/^\d{10}$/)
-    .withMessage("Contact must be a 10-digit number"),
+    .isMobilePhone("en-IN")
+    .withMessage("Contact must be a valid Indian phone number"),
   body("password")
     .isLength({ min: 6 })
-    .withMessage("Password must be at least 6 characters long"),
+    .withMessage("Password must be at least 6 characters long")
+    .matches(/[A-Z]/)
+    .withMessage("Password must contain at least one uppercase letter")
+    .matches(/[a-z]/)
+    .withMessage("Password must contain at least one lowercase letter")
+    .matches(/[0-9]/)
+    .withMessage("Password must contain at least one number"),
   body("fullname")
+    .trim()
     .notEmpty()
     .withMessage("Full name is required")
     .isLength({ min: 3 })
     .withMessage("Full name must be at least 3 characters long"),
-  body("isSeller").isBoolean().withMessage("isSeller must be a boolean value"),
+  body("isSeller")
+    .optional()
+    .isBoolean()
+    .withMessage("isSeller must be a boolean value"),
   validateRequest,
 ];
 
 export const validateLoginUser = [
-  body("email").isEmail().withMessage("Invalid email format"),
-  body("password").notEmpty().withMessage("Password is required"),
+  body("email").isEmail().withMessage("Invalid email format").normalizeEmail(),
+  body("password").trim().notEmpty().withMessage("Password is required"),
   validateRequest,
 ];
