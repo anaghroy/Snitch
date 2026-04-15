@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { config } from "../config/config.js";
 import { redisClient } from "../config/redis.js";
+import userModel from "../models/user.model.js";
 
 export const protect = async (req, res, next) => {
   try {
@@ -19,7 +20,16 @@ export const protect = async (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, config.JWT_SECRET);
-    req.user = decoded;
+    const user = await userModel.findById(decoded.id);
+    if (!user) {
+      return res
+        .status(401)
+        .json({ message: "Not authorized, user not found" });
+    }
+    if (user.role !== "seller") {
+      return res.status(403).json({ message: "Not authorized, Forbidden" });
+    }
+    req.user = user;
 
     next();
   } catch (error) {

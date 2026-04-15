@@ -106,7 +106,7 @@ const Login = () => {
                   required
                   minLength={6}
                   maxLength={25}
-                  pattern="[A-Z][a-z]*[0-9]*"
+                  pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,25}$"
                 />
                 <button
                   type="button"
