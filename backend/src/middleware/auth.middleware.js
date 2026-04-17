@@ -3,6 +3,7 @@ import { config } from "../config/config.js";
 import { redisClient } from "../config/redis.js";
 import userModel from "../models/user.model.js";
 
+
 export const protect = async (req, res, next) => {
   try {
     const token =

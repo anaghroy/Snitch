@@ -48,6 +48,10 @@ const productSchema = new mongoose.Schema(
       minlength: 3,
       maxlength: 100,
     },
+    category: {
+      type: [String],
+      default: ["Uncategorized"],
+    },
   },
   { timestamps: true },
 );

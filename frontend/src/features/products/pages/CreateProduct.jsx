@@ -94,7 +94,7 @@ const CreateProduct = () => {
       });
 
       await handleCreateProduct(payload);
-      navigate('/dashboard'); 
+      navigate('/seller/dashboard'); 
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.message || err.message || 'Failed to publish the item.');

@@ -24,6 +24,7 @@ export async function createProduct(req, res) {
       price: { amount: Number(priceAmount), currency: priceCurrency || "INR" },
       images,
       brand,
+      category: req.body.category ? [req.body.category] : ["Uncategorized"],
       seller: seller._id,
     });
     res.status(201).json({
@@ -46,4 +47,30 @@ export async function getSellerProducts(req, res) {
     success: true,
     products
   })
+}
+
+export async function getAllProducts(req, res) {
+  const products = await productModel.find()
+
+  res.status(200).json({
+    message: "Products fetched successfully",
+    success: true,
+    products
+  })
+}
+
+export async function getProductById(req, res) {
+  try {
+    const product = await productModel.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found", success: false });
+    }
+    res.status(200).json({
+      success: true,
+      product
+    });
+  } catch (error) {
+    console.error("Error fetching product by ID:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 }

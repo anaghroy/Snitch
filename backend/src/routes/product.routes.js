@@ -1,6 +1,6 @@
 import express from "express";
 import { protect } from "../middleware/auth.middleware.js";
-import { createProduct, getSellerProducts } from "../controllers/product.controller.js";
+import { createProduct, getSellerProducts, getAllProducts, getProductById } from "../controllers/product.controller.js";
 import multer from "multer";
 const router = express.Router();
 
@@ -22,5 +22,19 @@ router.post("/create", protect, upload.array("images", 7), createProduct);
  * @access Private (Seller only)
  */
 router.get("/seller", protect, getSellerProducts);
+
+/**
+ * @route GET /api/products
+ * @description Get all products
+ * @access Public
+ */
+router.get("/", getAllProducts)
+
+/**
+ * @route GET /api/products/:id
+ * @description Get single product by id
+ * @access Public
+ */
+router.get("/:id", getProductById);
 
 export default router;
