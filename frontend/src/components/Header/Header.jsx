@@ -1,12 +1,28 @@
 import React from 'react';
-import { Link } from 'react-router';
-import { Search, User, Heart, ShoppingBag } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router';
+import { Search, User, Heart, ShoppingBag, LogOut } from 'lucide-react';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../../features/auth/service/auth.api';
+import { setUser } from '../../features/auth/state/auth.slice';
 import lightLogo from "../../assets/images/dark-logo.png";
 
 const Header = ({ style }) => {
   const cart = useSelector((state) => state.cart.cart);
+  const userObj = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const cartItemCount = cart?.items?.reduce((total, item) => total + item.quantity, 0) || 0;
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      dispatch(setUser(null));
+      navigate('/login');
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  };
 
   return (
     <header className="home-header" style={style}>
@@ -44,6 +60,11 @@ const Header = ({ style }) => {
           <ShoppingBag size={22} />
           <span className="badge">{cartItemCount}</span>
         </Link>
+        {userObj && (
+          <button className="icon-btn" style={{color: '#e24e4e'}} onClick={handleLogout} title="Logout">
+            <LogOut size={22} />
+          </button>
+        )}
       </div>
     </header>
   );
