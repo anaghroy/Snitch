@@ -4,8 +4,10 @@ import { useProduct } from "../hook/useProduct";
 import { useCart } from "../../cart/hook/useCart";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Thumbs } from "swiper/modules";
-import { Heart, Search, User, ShoppingBag, GitCompare } from 'lucide-react';
-import lightLogo from "../../../assets/images/light-logo.png";
+import { Heart, GitCompare } from 'lucide-react';
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import Header from "../../../components/Header/Header";
+
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -62,51 +64,14 @@ const ProductDetails = () => {
 
   return (
     <div className="product-details-container">
-      {/* Reused Header for context (can be extracted to layout later) */}
-      <header
-        className="home-header"
+      {/* Reused Header */}
+      <Header
         style={{
           boxShadow: "none",
           borderBottom: "1px solid #f0f0f0",
           marginBottom: "3rem",
         }}
-      >
-        <div className="header-left">
-          <Link to="/" className="nav-link" style={{ textDecoration: "none" }}>
-            Home
-          </Link>
-          <span className="nav-link">Elements</span>
-          <span className="nav-link">Shop</span>
-          <span className="nav-link">Blog</span>
-          <span className="nav-link">Pages</span>
-        </div>
-        <div className="header-center">
-          <Link to="/">
-            <img
-              src={lightLogo}
-              alt="SNITCH"
-              className="logo"
-              style={{ height: "30px", filter: "invert(1)" }}
-            />
-          </Link>
-        </div>
-        <div className="header-right">
-          <button className="icon-btn">
-            <Search size={22} />
-          </button>
-          <button className="icon-btn">
-            <User size={22} />
-          </button>
-          <button className="icon-btn">
-            <Heart size={22} />
-            <span className="badge">0</span>
-          </button>
-          <button className="icon-btn">
-            <ShoppingBag size={22} />
-            <span className="badge">0</span>
-          </button>
-        </div>
-      </header>
+      />
 
       <div className="main-product-area">
         {/* Left Side: Images Gallery */}
@@ -190,6 +155,9 @@ const ProductDetails = () => {
             >
               {addingToCart ? "Adding..." : "Add to Cart"}
             </button>
+            <button className="btn-buy-now">
+              BUY NOW
+            </button>
           </div>
 
           <div className="actions-secondary">
@@ -213,10 +181,10 @@ const ProductDetails = () => {
           <div className="social-share">
             Share this product
             <div className="social-icons" style={{display: 'flex', gap: '15px'}}>
-              <span style={{cursor: 'pointer'}}>FB</span>
-              <span style={{cursor: 'pointer'}}>TW</span>
-              <span style={{cursor: 'pointer'}}>IG</span>
-              <span style={{cursor: 'pointer'}}>IN</span>
+              <span style={{cursor: 'pointer'}}><FaFacebook size={16} /></span>
+              <span style={{cursor: 'pointer'}}><FaTwitter size={16} /></span>
+              <span style={{cursor: 'pointer'}}><FaInstagram size={16} /></span>
+              <span style={{cursor: 'pointer'}}><FaLinkedin size={16} /></span>
             </div>
           </div>
         </div>

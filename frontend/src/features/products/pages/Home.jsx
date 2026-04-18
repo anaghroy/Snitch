@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import Header from '../../../components/Header/Header';
 import { useProduct } from '../hook/useProduct';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -40,32 +41,7 @@ const Home = () => {
       </div>
 
       {/* Navigation Header */}
-      <header className="home-header">
-        <div className="header-left">
-          <span className="nav-link">Home</span>
-          <span className="nav-link">Elements</span>
-          <span className="nav-link">Shop</span>
-          <span className="nav-link">Blog</span>
-          <span className="nav-link">Pages</span>
-        </div>
-        
-        <div className="header-center">
-          <img src={lightLogo} alt="SNITCH" className="logo" />
-        </div>
-
-        <div className="header-right">
-          <button className="icon-btn"><Search size={22} /></button>
-          <button className="icon-btn"><User size={22} /></button>
-          <button className="icon-btn">
-            <Heart size={22} />
-            <span className="badge">0</span>
-          </button>
-          <button className="icon-btn">
-            <ShoppingBag size={22} />
-            <span className="badge">0</span>
-          </button>
-        </div>
-      </header>
+      <Header />
 
       <main>
         {/* Full Screen Hero Swiper */}
