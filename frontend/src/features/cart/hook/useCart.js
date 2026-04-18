@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { getCart, addToCart } from "../service/cart.api";
+import { getCart, addToCart, removeFromCart, clearCart } from "../service/cart.api";
 import { setCart, setCartLoading } from "../state/cart.slice";
 
 export const useCart = () => {
@@ -35,5 +35,37 @@ export const useCart = () => {
     }
   }
 
-  return { handleGetCart, handleAddToCart };
+  async function handleRemoveFromCart(productId) {
+    dispatch(setCartLoading(true));
+    try {
+      const data = await removeFromCart(productId);
+      if (data.success) {
+        dispatch(setCart(data.cart));
+      }
+      return data;
+    } catch (error) {
+      console.error("Failed to remove from cart", error);
+      throw error;
+    } finally {
+      dispatch(setCartLoading(false));
+    }
+  }
+
+  async function handleClearCart() {
+    dispatch(setCartLoading(true));
+    try {
+      const data = await clearCart();
+      if (data.success) {
+        dispatch(setCart(data.cart));
+      }
+      return data;
+    } catch (error) {
+      console.error("Failed to clear cart", error);
+      throw error;
+    } finally {
+      dispatch(setCartLoading(false));
+    }
+  }
+
+  return { handleGetCart, handleAddToCart, handleRemoveFromCart, handleClearCart };
 };

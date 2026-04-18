@@ -19,3 +19,13 @@ export async function addToCart(productId, quantity) {
   const response = await cartApiInstance.post("/add", { productId, quantity });
   return response.data;
 }
+
+export async function removeFromCart(productId) {
+  const response = await cartApiInstance.delete(`/remove/${productId}`);
+  return response.data;
+}
+
+export async function clearCart() {
+  const response = await cartApiInstance.delete("/clear");
+  return response.data;
+}

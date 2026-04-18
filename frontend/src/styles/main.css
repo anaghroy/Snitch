@@ -1871,7 +1871,7 @@ body {
   border-radius: 2px;
   height: 48px;
 }
-.product-details-container .main-product-area .product-info .add-to-cart-form .btn-add-cart {
+.product-details-container .main-product-area .product-info .add-to-cart-form .btn-add-cart, .product-details-container .main-product-area .product-info .add-to-cart-form .btn-buy-now {
   background: #333;
   color: #fff;
   border: none;
@@ -1882,16 +1882,48 @@ body {
   font-size: 0.85rem;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   border-radius: 2px;
   letter-spacing: 0.05em;
 }
 .product-details-container .main-product-area .product-info .add-to-cart-form .btn-add-cart:hover {
   background: #111;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 .product-details-container .main-product-area .product-info .add-to-cart-form .btn-add-cart:disabled {
   background: #999;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.product-details-container .main-product-area .product-info .add-to-cart-form .btn-buy-now {
+  background: linear-gradient(135deg, #e24e4e 0%, #d13a3a 100%);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.product-details-container .main-product-area .product-info .add-to-cart-form .btn-buy-now::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: all 0.6s ease;
+  z-index: -1;
+}
+.product-details-container .main-product-area .product-info .add-to-cart-form .btn-buy-now:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(226, 78, 78, 0.4);
+}
+.product-details-container .main-product-area .product-info .add-to-cart-form .btn-buy-now:hover::before {
+  left: 100%;
+}
+.product-details-container .main-product-area .product-info .add-to-cart-form .btn-buy-now:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(226, 78, 78, 0.3);
 }
 .product-details-container .main-product-area .product-info .actions-secondary {
   display: flex;

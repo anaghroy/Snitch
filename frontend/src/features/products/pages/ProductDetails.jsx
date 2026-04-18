@@ -7,6 +7,8 @@ import { Navigation, Thumbs } from "swiper/modules";
 import { Heart, GitCompare } from 'lucide-react';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import Header from "../../../components/Header/Header";
+import LoadingLines from "../../../components/ui/LoadingLines";
+import { getCurrencySymbol } from "../../../utils/currency";
 
 
 import "swiper/css";
@@ -50,7 +52,7 @@ const ProductDetails = () => {
   if (!product) {
     return (
       <div style={{ textAlign: "center", padding: "5rem" }}>
-        Loading product...
+        <LoadingLines/>
       </div>
     );
   }
@@ -58,7 +60,7 @@ const ProductDetails = () => {
   // Ensure arrays exist for UI mappings
   const images = product.images?.length > 0 ? product.images : [{ url: "" }];
   const price = product.price?.amount || 0;
-  const currency = product.price?.currency === "USD" ? "$" : "₹";
+  const currency = getCurrencySymbol(product.price?.currency);
   const categories = product.category?.join(", ") || "Uncategorized";
   const tag = product.brand || "None";
 

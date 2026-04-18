@@ -4,6 +4,7 @@ import { useProduct } from '../hook/useProduct';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Search, User, Heart, ShoppingBag, Truck, RotateCcw, Headset, CreditCard } from 'lucide-react';
+import { getCurrencySymbol } from '../../../utils/currency';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import cloth1 from "../../../assets/images/cloth-1.jpg"
@@ -93,7 +94,7 @@ const Home = () => {
             {allProducts?.map((product) => {
               const imgSource = product.images?.[0]?.url || product.images?.[0];
               const price = product.price?.amount || product.priceAmount || 0;
-              const currency = product.price?.currency === 'USD' || product.priceCurrency === 'USD' ? '$' : '₹';
+              const currency = getCurrencySymbol(product.price?.currency || product.priceCurrency);
 
               return (
                 <SwiperSlide key={product._id} onClick={() => navigate(`/product/${product._id}`)} style={{cursor: 'pointer'}}>

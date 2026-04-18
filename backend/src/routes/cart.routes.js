@@ -1,6 +1,6 @@
 import express from "express";
 import { protect } from "../middleware/auth.middleware.js";
-import { getCart, addToCart } from "../controllers/cart.controller.js";
+import { getCart, addToCart, removeFromCart, clearCart } from "../controllers/cart.controller.js";
 
 const router = express.Router();
 
@@ -17,5 +17,19 @@ router.get("/", protect, getCart);
  * @access Private
  */
 router.post("/add", protect, addToCart);
+
+/**
+ * @route DELETE /api/cart/remove/:productId
+ * @description Remove product from cart
+ * @access Private
+ */
+router.delete("/remove/:productId", protect, removeFromCart);
+
+/**
+ * @route DELETE /api/cart/clear
+ * @description Clear cart
+ * @access Private
+ */
+router.delete("/clear", protect, clearCart);
 
 export default router;

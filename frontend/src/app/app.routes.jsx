@@ -7,6 +7,7 @@ import CreateProduct from "../features/products/pages/CreateProduct";
 import Dashboard from "../features/products/pages/Dashboard";
 import Home from "../features/products/pages/Home";
 import ProductDetails from "../features/products/pages/ProductDetails";
+import Checkout from "../features/products/pages/Checkout";
 
 export const routes = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ export const routes = createBrowserRouter([
             {
                 path: "/product/:id",
                 element: <ProductDetails />
+            },
+            {
+                path: "/checkout",
+                element: <Checkout />
             }
         ]
     },
