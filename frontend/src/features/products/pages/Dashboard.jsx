@@ -128,7 +128,7 @@ const Dashboard = () => {
               animate="show"
             >
               {sellerProducts?.map((product) => (
-                <motion.div key={product._id} className="product-card" variants={itemVariants}>
+                <motion.div key={product._id} className="product-card" variants={itemVariants} onClick={() => navigate(`/seller/product/${product._id}`)} style={{cursor: 'pointer'}}>
                   <div className="product-image">
                     {product.images?.[0] ? (
                       <img src={product.images[0].url || product.images[0]} alt={product.title} />

@@ -25,19 +25,67 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState("description");
   const [addingToCart, setAddingToCart] = useState(false);
+  
+  // Variant States
+  const [selectedAttributes, setSelectedAttributes] = useState({});
 
   useEffect(() => {
     async function fetchProduct() {
       if (id) {
         const prod = await handleGetProductById(id);
         setProduct(prod);
+        
+        // Auto-select base/original variant logic will happen naturally 
+        // by defaulting to "Original" config if variants exist
+        if (prod?.variants?.length > 0) {
+           const initialAttrs = {};
+           const keys = new Set();
+           prod.variants.forEach(v => Object.keys(v.attributes || {}).forEach(k => keys.add(k)));
+           keys.forEach(k => initialAttrs[k] = "Original");
+           setSelectedAttributes(initialAttrs);
+        }
       }
     }
     fetchProduct();
   }, [id]);
 
+  // Combine base product and explicitly added variants into a unified searchable array
+  const allVariants = React.useMemo(() => {
+    if (!product || !product.variants || product.variants.length === 0) return [];
+
+    const keys = new Set();
+    product.variants.forEach(v => Object.keys(v.attributes || {}).forEach(k => keys.add(k)));
+
+    const baseAttributes = {};
+    keys.forEach(k => baseAttributes[k] = "Original");
+
+    const baseVariant = {
+      isBase: true,
+      _id: product._id,
+      images: product.images,
+      price: product.price,
+      stock: Infinity, // Base product stock fallback
+      attributes: baseAttributes
+    };
+
+    return [baseVariant, ...product.variants];
+  }, [product]);
+
+  // Derived current variant from COMBINED array
+  const selectedVariant = allVariants.find(v => {
+    if (!v.attributes) return false;
+    return Object.keys(selectedAttributes).every(k => v.attributes[k] === selectedAttributes[k]);
+  });
+
+  const availableStock = selectedVariant ? selectedVariant.stock : Infinity;
+
   const onAddToCart = async () => {
     if (!product || quantity < 1) return;
+    if (quantity > availableStock) {
+      alert(`Only ${availableStock} items available in stock!`);
+      return;
+    }
+
     setAddingToCart(true);
     try {
       await handleAddToCart(product._id, quantity);
@@ -57,12 +105,46 @@ const ProductDetails = () => {
     );
   }
 
-  // Ensure arrays exist for UI mappings
-  const images = product.images?.length > 0 ? product.images : [{ url: "" }];
-  const price = product.price?.amount || 0;
-  const currency = getCurrencySymbol(product.price?.currency);
+  // Ensure arrays exist for UI mappings. Prioritize variant specific images if available.
+  const variantImages = selectedVariant?.images?.length > 0 ? selectedVariant.images : null;
+  const images = variantImages || (product.images?.length > 0 ? product.images : [{ url: "" }]);
+  
+  // Override price if variant is selected
+  const price = selectedVariant?.price?.amount || product.price?.amount || 0;
+  const currency = getCurrencySymbol(selectedVariant?.price?.currency || product.price?.currency);
   const categories = product.category?.join(", ") || "Uncategorized";
   const tag = product.brand || "None";
+
+  // Variant dynamic UI helpers
+  const attributeKeys = allVariants.reduce((keys, v) => {
+    Object.keys(v.attributes || {}).forEach(k => {
+      if (!keys.includes(k)) keys.push(k);
+    });
+    return keys;
+  }, []) || [];
+
+  const getUniqueValues = (key) => {
+     return Array.from(new Set(allVariants.map(v => v.attributes?.[key]).filter(Boolean)));
+  };
+
+  const handleAttributeSelect = (key, val) => {
+    let nextVariant = allVariants.find(v => {
+       const attrs = v.attributes || {};
+       let isMatch = true;
+       for (const currKey of Object.keys(selectedAttributes)) {
+          if (currKey !== key && attrs[currKey] !== selectedAttributes[currKey]) isMatch = false;
+       }
+       return isMatch && attrs[key] === val;
+    });
+
+    if (!nextVariant) {
+       nextVariant = allVariants.find(v => v.attributes?.[key] === val);
+    }
+
+    if (nextVariant) {
+       setSelectedAttributes(nextVariant.attributes || {});
+    }
+  };
 
   return (
     <div className="product-details-container">
@@ -79,6 +161,8 @@ const ProductDetails = () => {
         {/* Left Side: Images Gallery */}
         <div className="product-gallery">
           <Swiper
+            observer={true}
+            observeParents={true}
             modules={[Navigation, Thumbs]}
             thumbs={{
               swiper:
@@ -100,6 +184,8 @@ const ProductDetails = () => {
           {/* Thumbnails */}
           {images.length > 1 && (
             <Swiper
+              observer={true}
+              observeParents={true}
               modules={[Navigation, Thumbs]}
               onSwiper={setThumbsSwiper}
               navigation
@@ -142,6 +228,44 @@ const ProductDetails = () => {
           </div>
 
           <div className="description">{product.description}</div>
+
+          {/* Variant Selection UI */}
+          {attributeKeys.length > 0 && (
+            <div className="variant-selection" style={{ marginBottom: "2rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
+              {attributeKeys.map(key => (
+                <div key={key} className="attribute-group">
+                  <strong style={{ display: "block", marginBottom: "0.5rem", fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "1px" }}>{key}</strong>
+                  <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                    {getUniqueValues(key).map(val => {
+                      const isSelected = selectedAttributes[key] === val;
+                      return (
+                        <button
+                          key={val}
+                          onClick={() => handleAttributeSelect(key, val)}
+                          style={{
+                            padding: "0.5rem 1.2rem",
+                            border: `1px solid ${isSelected ? "#000" : "#ddd"}`,
+                            background: isSelected ? "#000" : "#fff",
+                            color: isSelected ? "#fff" : "#333",
+                            cursor: "pointer",
+                            transition: "all 0.2s ease"
+                          }}
+                        >
+                          {val}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+              
+              {selectedVariant && (
+                <div style={{ fontSize: "0.85rem", color: availableStock > 0 ? "green" : "red", marginTop: "0.5rem", fontWeight: "600" }}>
+                  {availableStock > 0 ? `${availableStock} items in stock` : "Currently Out of Stock"}
+                </div>
+              )}
+            </div>
+          )}
 
           <div className="add-to-cart-form">
             <input

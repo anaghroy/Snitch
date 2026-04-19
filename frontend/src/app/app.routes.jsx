@@ -8,6 +8,7 @@ import Dashboard from "../features/products/pages/Dashboard";
 import Home from "../features/products/pages/Home";
 import ProductDetails from "../features/products/pages/ProductDetails";
 import Checkout from "../features/products/pages/Checkout";
+import SellerProductDetails from "../features/products/pages/SellerProductDetails";
 
 export const routes = createBrowserRouter([
     {
@@ -39,6 +40,10 @@ export const routes = createBrowserRouter([
             {
                 path: "/seller/dashboard",
                 element: <Dashboard />
+            },
+            {
+                path: "/seller/product/:id",
+                element: <SellerProductDetails />
             }
         ]
     },

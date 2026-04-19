@@ -25,8 +25,13 @@ const Login = () => {
     try {
       const data = await login({ email, password });
       dispatch(setUser(data));
-      // Assuming data contains user info or token, proceed to home
-      navigate("/");
+      
+      const userRole = data?.user?.role || data?.role;
+      if (userRole === "seller") {
+        navigate("/seller/dashboard");
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       dispatch(setError(err.response?.data?.message || err.message));
     } finally {

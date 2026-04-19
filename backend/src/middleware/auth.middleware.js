@@ -27,14 +27,24 @@ export const protect = async (req, res, next) => {
         .status(401)
         .json({ message: "Not authorized, user not found" });
     }
-    if (user.role !== "seller") {
-      return res.status(403).json({ message: "Not authorized, Forbidden" });
-    }
+    
     req.user = user;
 
     next();
   } catch (error) {
     console.error("Auth middleware error:", error);
     res.status(401).json({ message: "Not authorized, token failed" });
+  }
+};
+
+export const isSeller = async (req, res, next) => {
+  try {
+    if (!req.user || req.user.role !== "seller") {
+      return res.status(403).json({ message: "Not authorized, Forbidden" });
+    }
+    next();
+  } catch (error) {
+    console.error("Seller middleware error:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };

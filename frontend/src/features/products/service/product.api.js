@@ -31,3 +31,12 @@ export async function getProductById(id) {
     const response = await productApiInstance.get(`/${id}`)
     return response.data
 }
+
+export async function addProductVariant(productId, formData) {
+    const response = await productApiInstance.post(`/${productId}/variants`, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data"
+        }
+    })
+    return response.data
+}
