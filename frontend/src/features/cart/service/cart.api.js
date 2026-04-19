@@ -15,13 +15,13 @@ export async function getCart() {
   return response.data;
 }
 
-export async function addToCart(productId, quantity) {
-  const response = await cartApiInstance.post("/add", { productId, quantity });
+export async function addToCart(productId, quantity, variantId, attributes) {
+  const response = await cartApiInstance.post("/add", { productId, quantity, variantId, attributes });
   return response.data;
 }
 
-export async function removeFromCart(productId) {
-  const response = await cartApiInstance.delete(`/remove/${productId}`);
+export async function removeFromCart(itemId) {
+  const response = await cartApiInstance.delete(`/remove/${itemId}`);
   return response.data;
 }
 

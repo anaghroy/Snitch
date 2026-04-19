@@ -19,11 +19,11 @@ router.get("/", protect, getCart);
 router.post("/add", protect, addToCart);
 
 /**
- * @route DELETE /api/cart/remove/:productId
+ * @route DELETE /api/cart/remove/:itemId
  * @description Remove product from cart
  * @access Private
  */
-router.delete("/remove/:productId", protect, removeFromCart);
+router.delete("/remove/:itemId", protect, removeFromCart);
 
 /**
  * @route DELETE /api/cart/clear

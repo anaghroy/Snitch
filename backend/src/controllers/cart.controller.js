@@ -23,7 +23,7 @@ export async function getCart(req, res) {
 export async function addToCart(req, res) {
   try {
     const userId = req.user._id;
-    const { productId, quantity } = req.body;
+    const { productId, quantity, variantId = 'base', attributes = {} } = req.body;
 
     const qty = Number(quantity);
     if (!productId || isNaN(qty) || qty < 1) {
@@ -41,7 +41,7 @@ export async function addToCart(req, res) {
     }
 
     const itemIndex = cart.items.findIndex(
-      (item) => item.product.toString() === productId
+      (item) => item.product.toString() === productId && item.variantId === variantId
     );
 
     if (itemIndex > -1) {
@@ -49,7 +49,7 @@ export async function addToCart(req, res) {
       cart.items[itemIndex].quantity += qty;
     } else {
       // Product does not exist, add it
-      cart.items.push({ product: productId, quantity: qty });
+      cart.items.push({ product: productId, quantity: qty, variantId, attributes });
     }
 
     await cart.save();
@@ -71,7 +71,7 @@ export async function addToCart(req, res) {
 export async function removeFromCart(req, res) {
   try {
     const userId = req.user._id;
-    const { productId } = req.params;
+    const { itemId } = req.params;
 
     let cart = await Cart.findOne({ user: userId });
     if (!cart) {
@@ -79,7 +79,7 @@ export async function removeFromCart(req, res) {
     }
 
     cart.items = cart.items.filter(
-      (item) => item.product.toString() !== productId
+      (item) => item._id.toString() !== itemId
     );
 
     await cart.save();

@@ -46,7 +46,11 @@ const Checkout = () => {
 
   const items = cart?.items || [];
   const subtotal = items.reduce(
-    (acc, curr) => acc + (curr.product?.price?.amount || 0) * curr.quantity,
+    (acc, curr) => {
+      const vParams = curr.product?.variants?.find(v => v._id === curr.variantId);
+      const price = vParams?.price?.amount || curr.product?.price?.amount || 0;
+      return acc + (price * curr.quantity);
+    },
     0
   );
   
@@ -85,16 +89,17 @@ const Checkout = () => {
               <div className="cart-items-list">
                 {items.map((item) => {
                   const p = item.product || {};
-                  const price = p.price?.amount || 0;
+                  const vParams = p.variants?.find(v => v._id === item.variantId);
+                  const price = vParams?.price?.amount || p.price?.amount || 0;
                   const itemSubtotal = price * item.quantity;
-                  const imgUrl = p.images?.[0]?.url || "";
+                  const imgUrl = vParams?.images?.[0]?.url || p.images?.[0]?.url || "";
 
                   return (
-                    <div className="cart-item-row" key={p._id}>
+                    <div className="cart-item-row" key={item._id}>
                       <button 
                         className="btn-remove" 
-                        onClick={() => onRemove(p._id)}
-                        disabled={removingId === p._id}
+                        onClick={() => onRemove(item._id)}
+                        disabled={removingId === item._id}
                       >
                         <X size={16} />
                       </button>
@@ -106,6 +111,11 @@ const Checkout = () => {
                         <div className="item-details">
                           <h4>{p.title || "Unknown Product"}</h4>
                           <p>Brand : {p.brand || "N/A"}</p>
+                          {item.attributes && Object.entries(item.attributes).map(([key, val]) => (
+                             <p key={key} style={{ fontSize: "0.82rem", color: "#888", marginTop: "2px", fontWeight: "600", letterSpacing: "0.5px" }}>
+                                {key.toUpperCase()}: {val}
+                             </p>
+                          ))}
                         </div>
                       </div>
 

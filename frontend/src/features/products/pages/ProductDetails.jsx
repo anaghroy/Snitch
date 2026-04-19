@@ -88,7 +88,8 @@ const ProductDetails = () => {
 
     setAddingToCart(true);
     try {
-      await handleAddToCart(product._id, quantity);
+      const variantId = selectedVariant?.isBase ? 'base' : (selectedVariant?._id || 'base');
+      await handleAddToCart(product._id, quantity, variantId, selectedAttributes);
       alert("Product added to cart successfully!");
     } catch (e) {
       alert("Failed to add to cart: " + e.message);
