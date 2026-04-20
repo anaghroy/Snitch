@@ -81,11 +81,11 @@ body {
   --bg-card: #21212c;
   --bg-glass: rgba(255, 255, 255, 0.05);
   /* Brand */
-  --color-primary: #8b5cf6;
-  --color-primary-light: #a78bfa;
-  --color-primary-dark: #fce2ce;
+  --color-primary: #111111;
+  --color-primary-light: #333333;
+  --color-primary-dark: #000000;
   /* Accent */
-  --color-accent: #ec4899;
+  --color-accent: #ffffff;
   --color-danger: #ef4444;
   --color-success: #22c55e;
   /* Text */
@@ -131,11 +131,11 @@ body {
   --bg-card: #ffffff;
   --bg-glass: rgba(0, 0, 0, 0.04);
   /* Brand */
-  --color-primary: #8b5cf6;
-  --color-primary-light: #a78bfa;
-  --color-primary-dark: #efd0ef;
+  --color-primary: #111111;
+  --color-primary-light: #333333;
+  --color-primary-dark: #000000;
   /* Accent */
-  --color-accent: #ec4899;
+  --color-accent: #ffffff;
   --color-danger: #ef4444;
   --color-success: #22c55e;
   /* Text */
@@ -1257,24 +1257,12 @@ body {
   align-items: center;
 }
 
-/* ----- GLOBALS & RESET ----- */
 .home-container {
   font-family: var(--font-body);
   color: #111;
   background-color: #fff;
   min-height: 100vh;
   width: 100%;
-}
-
-.top-banner {
-  background-color: #557256; /* Subtle green from the brand image */
-  color: #fff;
-  text-align: center;
-  padding: 0.6rem 1rem;
-  font-size: 0.85rem;
-  font-family: var(--font-sub-body);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
 }
 
 /* ----- HEADER ----- */
@@ -1355,13 +1343,13 @@ body {
   /* Swiper Progress bar override */
 }
 .hero-section .swiper-pagination-progressbar {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.2) !important;
   top: auto !important;
   bottom: 0 !important;
-  height: 4px;
+  height: 3px !important;
 }
 .hero-section .swiper-pagination-progressbar .swiper-pagination-progressbar-fill {
-  background: #111;
+  background: #fff !important;
 }
 .hero-section .hero-slide {
   width: 100%;
@@ -1406,19 +1394,20 @@ body {
   margin-bottom: 2.5rem;
 }
 .hero-section .hero-slide .hero-content .btn-shop-now {
-  background: #111;
-  color: #fff;
+  background: #fff;
+  color: #000;
   border: none;
-  padding: 1rem 2.5rem;
+  padding: 1rem 3rem;
   font-family: var(--font-sub-body);
   font-size: 0.9rem;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
 }
 .hero-section .hero-slide .hero-content .btn-shop-now:hover {
-  background: #333;
+  background: #000;
+  color: #fff;
 }
 
 /* ----- FEATURED PRODUCTS ----- */
@@ -1488,28 +1477,32 @@ body {
   position: absolute;
   top: 10px;
   left: 10px;
-  background: #557256;
+  background: #000;
   color: #fff;
-  padding: 0.2rem 0.5rem;
-  font-size: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.7rem;
   font-family: var(--font-overall-bold);
-  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 .featured-section .product-card .product-price {
   font-family: var(--font-sub-body);
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   color: #111;
   margin-bottom: 0.4rem;
 }
 .featured-section .product-card .product-name {
-  font-family: var(--font-body);
+  font-family: var(--font-heading);
   font-size: 0.9rem;
-  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #333;
   margin-bottom: 0.5rem;
 }
 .featured-section .product-card .product-rating {
-  color: #557256;
-  font-size: 1rem;
+  color: #111;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
 }
 
 /* ----- PROMO BANNERS ----- */
@@ -1523,8 +1516,7 @@ body {
 }
 .promo-banners .promo-banner {
   position: relative;
-  height: 380px;
-  border-radius: 8px;
+  height: 420px;
   padding: 3.5rem;
   display: flex;
   flex-direction: column;
@@ -1532,34 +1524,34 @@ body {
   overflow: hidden;
 }
 .promo-banners .promo-banner.left {
-  background: #f9f9f9;
+  background: #f4f4f4;
 }
 .promo-banners .promo-banner.left .subtitle {
-  color: #888;
+  color: #000;
 }
 .promo-banners .promo-banner.left h3 {
-  color: #eae6e6;
+  color: #111;
 }
 .promo-banners .promo-banner.left .btn-promo {
-  border-color: #e0e0e0;
-  color: #111;
-  background: #fff;
+  border-color: #000;
+  color: #fff;
+  background: #000;
 }
 .promo-banners .promo-banner.right {
-  background: #c3d2c8; /* Light muted green */
+  background: #000;
 }
 .promo-banners .promo-banner.right h3 {
-  color: #111;
-  font-size: 2rem;
+  color: #fff;
+  font-size: 2.5rem;
 }
 .promo-banners .promo-banner.right p {
-  color: #444;
+  color: #ccc;
   margin-bottom: 2rem;
 }
 .promo-banners .promo-banner.right .btn-promo {
-  border-color: transparent;
-  color: #fff;
-  background: #111;
+  border-color: #fff;
+  color: #000;
+  background: #fff;
 }
 .promo-banners .promo-banner .subtitle {
   font-family: var(--font-sub-body);
@@ -1639,12 +1631,12 @@ body {
 
 /* ----- AS SEEN IN ----- */
 .as-seen-in {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto 5rem;
   padding: 4rem 2rem;
   text-align: center;
-  background: #f8f9f8;
-  border-radius: 12px;
+  background: #000;
+  color: #fff;
 }
 .as-seen-in h3 {
   font-family: var(--font-sub-heading);
@@ -1671,15 +1663,15 @@ body {
   font-family: var(--font-heading);
   font-size: 1.5rem;
   font-weight: bold;
-  color: #333;
+  color: #fff;
   align-items: center;
   justify-content: center;
 }
 .as-seen-in .brands-grid .brand-col .quote {
   font-family: var(--font-body);
   font-size: 0.95rem;
-  color: #555;
-  line-height: 1.5;
+  color: #ccc;
+  line-height: 1.6;
   font-style: italic;
 }
 .as-seen-in .brands-grid .brand-col .quote::before {

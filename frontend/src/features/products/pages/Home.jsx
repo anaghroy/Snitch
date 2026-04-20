@@ -36,11 +36,6 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      {/* Top Banner */}
-      <div className="top-banner">
-        Free shipping on all U.S. orders $50+
-      </div>
-
       {/* Navigation Header */}
       <Header />
 
@@ -59,9 +54,9 @@ const Home = () => {
                 <div className="hero-slide" style={{ backgroundImage: `url(${img})`, backgroundPosition: 'center', backgroundSize: 'cover'}}>
                   <div className="hero-overlay">
                     <div className="hero-content">
-                      <span className="subtitle">ESSENTIAL ITEMS</span>
-                      <h1>Beauty Inspired<br/>by Real Life</h1>
-                      <p>Made using clean, non-toxic ingredients, our products<br/>are designed for everyone.</p>
+                      <span className="subtitle">THE NEW ORIGINALS</span>
+                      <h1 style={{fontFamily: 'var(--font-heading)', textTransform: 'uppercase', letterSpacing: '2px'}}>Unapologetic<br/>Streetwear</h1>
+                      <p style={{letterSpacing: '1px'}}>Engineered for the fearless. Quality garments<br/>designed to disrupt the daily routine.</p>
                       <button className="btn-shop-now">Shop Now</button>
                     </div>
                   </div>
@@ -74,8 +69,8 @@ const Home = () => {
         {/* Featured Products Swiper Category */}
         <section className="featured-section">
           <div className="section-header">
-            <h2>Our Featured Products</h2>
-            <p>Get the skin you want to feel</p>
+            <h2 style={{textTransform: 'uppercase', letterSpacing: '1.5px'}}>Latest Drops</h2>
+            <p style={{textTransform: 'uppercase', letterSpacing: '2px', fontSize: '0.8rem'}}>Curated essentials for your wardrobe</p>
           </div>
 
           <Swiper
@@ -123,23 +118,23 @@ const Home = () => {
         {/* Promo Banners */}
         <section className="promo-banners">
           <div className="promo-banner left">
-            <span className="subtitle">NEW COLLECTION</span>
-            <h3>Intensive Glow C+<br/>Serum</h3>
-            <button className="btn-promo">Explore More</button>
+            <span className="subtitle">PREMIUM ESSENTIALS</span>
+            <h3 style={{textTransform: 'uppercase', letterSpacing: '1px'}}>Oversized<br/>Comfort Fits</h3>
+            <button className="btn-promo">Explore Collection</button>
             <img 
               src={cloth1}
-              alt="Serum" 
+              alt="Premium Fit" 
               className="bg-img" 
             />
           </div>
           
           <div className="promo-banner right">
-            <h3>25% off Everything</h3>
-            <p>Makeup with extended range in<br/>colors for every human.</p>
-            <button className="btn-promo">Shop Sale</button>
+            <h3 style={{textTransform: 'uppercase', letterSpacing: '1px'}}>Mid-Season Sale</h3>
+            <p style={{letterSpacing: '1px', fontSize: '0.9rem', marginBottom: '2rem'}}>Elevate your aesthetic. Up to 40%<br/>off select styles.</p>
+            <button className="btn-promo">Access Sale</button>
             <img 
               src={cloth2}
-              alt="Makeup" 
+              alt="Mid Season" 
               className="bg-img" 
             />
           </div>
@@ -171,19 +166,19 @@ const Home = () => {
 
         {/* As Seen In */}
         <section className="as-seen-in">
-          <h3>As seen in</h3>
+          <h3 style={{textTransform: 'uppercase', letterSpacing: '2px'}}>Snitch Sightings</h3>
           <div className="brands-grid">
             <div className="brand-col">
-              <div className="brand-logo" style={{fontFamily: "var(--font-heading)"}}>Parker <br/> &Co.</div>
-              <p className="quote">Also the customer service is phenomenal. I would purchase again.</p>
+              <div className="brand-logo" style={{fontFamily: "var(--font-heading)", fontSize: '1.2rem', textTransform: 'uppercase'}}>STREET <br/> VIBES</div>
+              <p className="quote">"Snitch entirely redefines what it means to look effortlessly premium. The fit is immaculate."</p>
             </div>
             <div className="brand-col">
-              <div className="brand-logo" style={{fontFamily: "var(--font-sub-heading)", letterSpacing: "0.1em", textTransform: "uppercase"}}>HAYDEN</div>
-              <p className="quote">Great product line. Very attentive staff to deal with.</p>
+              <div className="brand-logo" style={{fontFamily: "var(--font-sub-heading)", letterSpacing: "0.2em", textTransform: "uppercase"}}>HYPEBEAST</div>
+              <p className="quote">"A necessary addition to any serious minimalist's wardrobe rotation."</p>
             </div>
             <div className="brand-col">
-              <div className="brand-logo" style={{fontFamily: "var(--font-main-heading)", fontWeight: 800}}>GOOD <br/> MOOD</div>
-              <p className="quote">Looking to affordably upgrade your everyday dinnerware? Look no further than e-Space</p>
+              <div className="brand-logo" style={{fontFamily: "var(--font-main-heading)", fontWeight: 800, fontSize: '1.4rem'}}>VOGUE <br/> MEN</div>
+              <p className="quote">"Combining pristine fabrics with raw edge styling. Highly recommended."</p>
             </div>
           </div>
         </section>

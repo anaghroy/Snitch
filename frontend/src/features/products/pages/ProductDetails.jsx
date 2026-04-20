@@ -6,7 +6,7 @@ import { useWishlist } from "../../wishlist/hook/useWishlist";
 import { useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Thumbs } from "swiper/modules";
-import { Heart, GitCompare } from 'lucide-react';
+import { Heart, GitCompare, ArrowLeft } from 'lucide-react';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import Header from "../../../components/Header/Header";
 import LoadingLines from "../../../components/ui/LoadingLines";
@@ -133,17 +133,13 @@ const ProductDetails = () => {
     );
   }
 
-  // Ensure arrays exist for UI mappings. Prioritize variant specific images if available.
   const variantImages = selectedVariant?.images?.length > 0 ? selectedVariant.images : null;
   const images = variantImages || (product.images?.length > 0 ? product.images : [{ url: "" }]);
   
-  // Override price if variant is selected
   const price = selectedVariant?.price?.amount || product.price?.amount || 0;
   const currency = getCurrencySymbol(selectedVariant?.price?.currency || product.price?.currency);
   const categories = product.category?.join(", ") || "Uncategorized";
   const tag = product.brand || "None";
-
-  // Variant dynamic UI helpers
   const attributeKeys = allVariants.reduce((keys, v) => {
     Object.keys(v.attributes || {}).forEach(k => {
       if (!keys.includes(k)) keys.push(k);
@@ -185,6 +181,30 @@ const ProductDetails = () => {
         }}
       />
 
+      <div style={{ padding: "0 5%", maxWidth: "1500px", margin: "0 auto 2rem" }}>
+        <button 
+          onClick={() => navigate('/')}
+          style={{ 
+            display: "inline-flex", 
+            alignItems: "center", 
+            gap: "0.5rem", 
+            background: "transparent", 
+            border: "none", 
+            fontFamily: "var(--font-sub-heading)", 
+            fontSize: "0.9rem", 
+            cursor: "pointer", 
+            textTransform: "uppercase", 
+            letterSpacing: "1px",
+            transition: "all 0.3s ease",
+            color: "#666" 
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.color = "#000"; e.currentTarget.style.transform = "translateX(-5px)" }}
+          onMouseLeave={(e) => { e.currentTarget.style.color = "#666"; e.currentTarget.style.transform = "translateX(0)" }}
+        >
+          <ArrowLeft size={16} /> Back to Home
+        </button>
+      </div>
+
       <div className="main-product-area">
         {/* Left Side: Images Gallery */}
         <div className="product-gallery">
@@ -210,7 +230,7 @@ const ProductDetails = () => {
           </Swiper>
 
           {/* Thumbnails */}
-          {images.length > 1 && (
+          <div style={{ display: images.length > 1 ? 'block' : 'none' }}>
             <Swiper
               observer={true}
               observeParents={true}
@@ -232,7 +252,7 @@ const ProductDetails = () => {
                 </SwiperSlide>
               ))}
             </Swiper>
-          )}
+          </div>
         </div>
 
         {/* Right Side: Information */}

@@ -1,23 +1,11 @@
 @use "../fonts/typography" as *;
 
-/* ----- GLOBALS & RESET ----- */
 .home-container {
   font-family: var(--font-body);
   color: #111;
   background-color: #fff;
   min-height: 100vh;
   width: 100%;
-}
-
-.top-banner {
-  background-color: #557256; /* Subtle green from the brand image */
-  color: #fff;
-  text-align: center;
-  padding: 0.6rem 1rem;
-  font-size: 0.85rem;
-  font-family: var(--font-sub-body);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
 }
 
 /* ----- HEADER ----- */
@@ -102,13 +90,13 @@
 
   /* Swiper Progress bar override */
   .swiper-pagination-progressbar {
-    background: rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.2) !important;
     top: auto !important;
     bottom: 0 !important;
-    height: 4px;
+    height: 3px !important;
 
     .swiper-pagination-progressbar-fill {
-      background: #111;
+      background: #fff !important;
     }
   }
 
@@ -159,19 +147,20 @@
       }
 
       .btn-shop-now {
-        background: #111;
-        color: #fff;
+        background: #fff;
+        color: #000;
         border: none;
-        padding: 1rem 2.5rem;
+        padding: 1rem 3rem;
         font-family: var(--font-sub-body);
         font-size: 0.9rem;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
         cursor: pointer;
-        transition: background 0.3s ease;
+        transition: all 0.3s ease;
 
         &:hover {
-          background: #333;
+          background: #000;
+          color: #fff;
         }
       }
     }
@@ -247,36 +236,40 @@
         transform: scale(1.05);
       }
 
-      .sale-tag {
+    .sale-tag {
         position: absolute;
         top: 10px;
         left: 10px;
-        background: #557256;
+        background: #000;
         color: #fff;
-        padding: 0.2rem 0.5rem;
-        font-size: 0.75rem;
+        padding: 0.3rem 0.6rem;
+        font-size: 0.70rem;
         font-family: var(--font-overall-bold);
-        border-radius: 4px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
       }
     }
 
     .product-price {
       font-family: var(--font-sub-body);
-      font-size: 0.95rem;
+      font-size: 1.1rem;
       color: #111;
       margin-bottom: 0.4rem;
     }
 
     .product-name {
-      font-family: var(--font-body);
+      font-family: var(--font-heading);
       font-size: 0.9rem;
-      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #333;
       margin-bottom: 0.5rem;
     }
 
     .product-rating {
-      color: #557256;
-      font-size: 1rem;
+      color: #111;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
     }
   }
 }
@@ -292,8 +285,7 @@
 
   .promo-banner {
     position: relative;
-    height: 380px;
-    border-radius: 8px;
+    height: 420px;
     padding: 3.5rem;
     display: flex;
     flex-direction: column;
@@ -301,17 +293,17 @@
     overflow: hidden;
 
     &.left {
-      background: #f9f9f9;
-      .subtitle { color: #888; }
-      h3 { color: #eae6e6; }
-      .btn-promo { border-color: #e0e0e0; color: #111; background: #fff; }
+      background: #f4f4f4;
+      .subtitle { color: #000; }
+      h3 { color: #111; }
+      .btn-promo { border-color: #000; color: #fff; background: #000; }
     }
 
     &.right {
-      background: #c3d2c8; /* Light muted green */
-      h3 { color: #111; font-size: 2rem; }
-      p { color: #444; margin-bottom: 2rem; }
-      .btn-promo { border-color: transparent; color: #fff; background: #111; }
+      background: #000;
+      h3 { color: #fff; font-size: 2.5rem; }
+      p { color: #ccc; margin-bottom: 2rem; }
+      .btn-promo { border-color: #fff; color: #000; background: #fff; }
     }
 
     .subtitle {
@@ -401,12 +393,12 @@
 
 /* ----- AS SEEN IN ----- */
 .as-seen-in {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto 5rem;
   padding: 4rem 2rem;
   text-align: center;
-  background: #f8f9f8;
-  border-radius: 12px;
+  background: #000;
+  color: #fff;
 
   h3 {
     font-family: var(--font-sub-heading);
@@ -433,7 +425,7 @@
         font-family: var(--font-heading);
         font-size: 1.5rem;
         font-weight: bold;
-        color: #333;
+        color: #fff;
         align-items: center;
         justify-content: center;
       }
@@ -441,8 +433,8 @@
       .quote {
         font-family: var(--font-body);
         font-size: 0.95rem;
-        color: #555;
-        line-height: 1.5;
+        color: #ccc;
+        line-height: 1.6;
         font-style: italic;
 
         &::before { content: '“ '; font-weight: bold; }
