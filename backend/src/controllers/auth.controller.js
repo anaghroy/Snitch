@@ -30,6 +30,7 @@ async function sendTokenResponse(user, res, message) {
       contact: user.contact,
       fullname: user.fullname,
       role: user.role,
+      photo: user.photo,
     },
   });
 }
@@ -89,6 +90,38 @@ export const getMe = async (req, res) => {
   });
 };
 
+export const updateProfile = async (req, res) => {
+  try {
+    const { fullname, contact } = req.body;
+    const user = await userModel.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (fullname) user.fullname = fullname;
+    if (contact !== undefined) user.contact = contact;
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+      user: {
+        id: user._id,
+        email: user.email,
+        contact: user.contact,
+        fullname: user.fullname,
+        role: user.role,
+        photo: user.photo,
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error during profile update" });
+  }
+};
+
 export const googleCallback = async (req, res) => {
   try {
     const profile = req.user;
@@ -142,16 +175,27 @@ export const githubCallback = async (req, res) => {
 
     let user = await userModel.findOne({ email });
 
+    const photo = profile.photos && profile.photos.length > 0 ? profile.photos[0].value : "";
+
     if (!user) {
       user = await userModel.create({
         email,
         fullname,
         githubId,
+        photo,
         role: "buyer",
       });
-    } else if (!user.githubId) {
-      user.githubId = githubId;
-      await user.save();
+    } else {
+      let changed = false;
+      if (!user.githubId) {
+        user.githubId = githubId;
+        changed = true;
+      }
+      if (!user.photo && photo) {
+        user.photo = photo;
+        changed = true;
+      }
+      if (changed) await user.save();
     }
 
     res.redirect("http://localhost:5173");

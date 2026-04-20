@@ -31,7 +31,12 @@ export async function login({ email, password }) {
 
 export async function getMe() {
     const response = await authApiInstance.get("/get-me")
-    return response.data
+    return response.data.user
+}
+
+export async function updateProfile(data) {
+    const response = await authApiInstance.put("/update", data);
+    return response.data;
 }
 
 export async function logout() {

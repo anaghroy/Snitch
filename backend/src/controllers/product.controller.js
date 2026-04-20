@@ -157,3 +157,30 @@ export async function getSimilarProducts(req, res) {
   }
 }
 
+export async function searchProducts(req, res) {
+  try {
+    const { q } = req.query;
+    if (!q || q.trim() === "") {
+      return res.status(200).json({ success: true, products: [] });
+    }
+
+    const regex = new RegExp(q, "i");
+
+    const products = await productModel.find({
+      $or: [
+        { title: regex },
+        { brand: regex },
+        { category: { $in: [regex] } },
+        { description: regex }
+      ]
+    }).limit(10);
+
+    res.status(200).json({
+      success: true,
+      products
+    });
+  } catch (error) {
+    console.error("Error searching products:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}

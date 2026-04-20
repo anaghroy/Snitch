@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../features/auth/service/auth.api';
 import { setUser } from '../../features/auth/state/auth.slice';
 import { useWishlist } from '../../features/wishlist/hook/useWishlist';
+import SearchComponent from '../Search/Search';
 import lightLogo from "../../assets/images/dark-logo.png";
 
 const Header = ({ style }) => {
@@ -14,6 +15,7 @@ const Header = ({ style }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { handleGetWishlist } = useWishlist();
+  const [isSearchOpen, setIsSearchOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (!wishlist && userObj) {
@@ -56,10 +58,10 @@ const Header = ({ style }) => {
         </Link>
       </div>
       <div className="header-right">
-        <button className="icon-btn">
+        <button className="icon-btn" onClick={() => setIsSearchOpen(true)}>
           <Search size={22} color="#111" />
         </button>
-        <Link to="/seller/dashboard" className="icon-btn">
+        <Link to="/profile" className="icon-btn">
           <User size={22} color="#111" />
         </Link>
         <Link to="/wishlist" className="icon-btn">
@@ -76,6 +78,7 @@ const Header = ({ style }) => {
           </button>
         )}
       </div>
+      <SearchComponent isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </header>
   );
 };

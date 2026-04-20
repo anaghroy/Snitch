@@ -45,3 +45,8 @@ export async function getSimilarProducts(id) {
     const response = await productApiInstance.get(`/${id}/similar`)
     return response.data
 }
+
+export async function searchProducts(query) {
+    const response = await productApiInstance.get(`/search?q=${encodeURIComponent(query)}`)
+    return response.data
+}

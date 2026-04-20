@@ -10,6 +10,7 @@ import {
   register,
   logout,
   getMe,
+  updateProfile,
 } from "../controllers/auth.controller.js";
 import { protect } from "../middleware/auth.middleware.js";
 import { config } from "../config/config.js";
@@ -22,6 +23,8 @@ router.post("/register", validateRegisterUser, register);
 router.post("/login", validateLoginUser, login);
 
 router.get("/get-me", protect, getMe);
+
+router.put("/update", protect, updateProfile);
 
 router.get(
   "/google",

@@ -1,6 +1,6 @@
 import express from "express";
 import { protect, isSeller } from "../middleware/auth.middleware.js";
-import { createProduct, getSellerProducts, getAllProducts, getProductById, addProductVariant, getSimilarProducts } from "../controllers/product.controller.js";
+import { createProduct, getSellerProducts, getAllProducts, getProductById, addProductVariant, getSimilarProducts, searchProducts } from "../controllers/product.controller.js";
 import multer from "multer";
 const router = express.Router();
 
@@ -29,6 +29,13 @@ router.get("/seller", protect, isSeller, getSellerProducts);
  * @access Public
  */
 router.get("/", getAllProducts)
+
+/**
+ * @route GET /api/products/search
+ * @description Search products by brand, category, title
+ * @access Public
+ */
+router.get("/search", searchProducts);
 
 /**
  * @route GET /api/products/:id
