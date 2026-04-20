@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router";
+import { useParams, Link, useNavigate } from "react-router";
 import { useProduct } from "../hook/useProduct";
 import { useCart } from "../../cart/hook/useCart";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -17,7 +17,8 @@ import "swiper/css/thumbs";
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const { handleGetProductById } = useProduct();
+  const navigate = useNavigate();
+  const { handleGetProductById, handleGetSimilarProducts } = useProduct();
   const { handleAddToCart } = useCart();
 
   const [product, setProduct] = useState(null);
@@ -25,6 +26,7 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState("description");
   const [addingToCart, setAddingToCart] = useState(false);
+  const [similarProducts, setSimilarProducts] = useState([]);
   
   // Variant States
   const [selectedAttributes, setSelectedAttributes] = useState({});
@@ -32,6 +34,7 @@ const ProductDetails = () => {
   useEffect(() => {
     async function fetchProduct() {
       if (id) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         const prod = await handleGetProductById(id);
         setProduct(prod);
         
@@ -43,6 +46,13 @@ const ProductDetails = () => {
            prod.variants.forEach(v => Object.keys(v.attributes || {}).forEach(k => keys.add(k)));
            keys.forEach(k => initialAttrs[k] = "Original");
            setSelectedAttributes(initialAttrs);
+        }
+        
+        try {
+          const similar = await handleGetSimilarProducts(id);
+          setSimilarProducts(similar);
+        } catch (e) {
+          console.error("Failed to fetch similar products:", e);
         }
       }
     }
@@ -268,13 +278,26 @@ const ProductDetails = () => {
             </div>
           )}
 
-          <div className="add-to-cart-form">
-            <input
-              type="number"
-              min="1"
-              value={quantity}
-              onChange={(e) => setQuantity(Number(e.target.value) || 1)}
-            />
+          <div className="add-to-cart-form" style={{ display: "flex", gap: "1rem", alignItems: "center", marginBottom: "2rem" }}>
+            <div className="quantity-controls" style={{ display: "flex", border: "1px solid #ddd", height: "45px", backgroundColor: "#fff" }}>
+              <button 
+                type="button"
+                onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                style={{ padding: "0 15px", background: "transparent", border: "none", cursor: "pointer", fontSize: "1.2rem", color: "#333", borderRight: "1px solid #ddd" }}
+              >-</button>
+              <input
+                type="number"
+                min="1"
+                value={quantity}
+                onChange={(e) => setQuantity(Math.max(1, Number(e.target.value) || 1))}
+                style={{ width: "50px", textAlign: "center", border: "none", outline: "none", height: "100%", padding: "0" }}
+              />
+              <button 
+                type="button"
+                onClick={() => setQuantity(q => q + 1)}
+                style={{ padding: "0 15px", background: "transparent", border: "none", cursor: "pointer", fontSize: "1.2rem", color: "#333", borderLeft: "1px solid #ddd" }}
+              >+</button>
+            </div>
             <button
               className="btn-add-cart"
               onClick={onAddToCart}
@@ -360,6 +383,53 @@ const ProductDetails = () => {
           )}
         </div>
       </div>
+
+      {/* Similar Products Section */}
+      {similarProducts && similarProducts.length > 0 && (
+        <div className="similar-products-section" style={{ marginTop: "4rem", borderTop: "1px solid #f0f0f0", paddingTop: "3rem" }}>
+          <h2 style={{ textAlign: "center", marginBottom: "2rem", fontSize: "1.8rem", textTransform: "uppercase", letterSpacing: "1px" }}>You May Also Like</h2>
+          
+          <Swiper
+            modules={[Navigation]}
+            navigation
+            spaceBetween={30}
+            slidesPerView={4}
+            breakpoints={{
+              320: { slidesPerView: 1 },
+              640: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 },
+              1280: { slidesPerView: 4 }
+            }}
+            className="product-swiper"
+            style={{ padding: "10px 0 40px" }}
+          >
+            {similarProducts.map((prod) => {
+              const imgSource = prod.images?.[0]?.url;
+              const prodPrice = prod.price?.amount || 0;
+              const prodCurrency = getCurrencySymbol(prod.price?.currency);
+
+              return (
+                <SwiperSlide key={prod._id} onClick={() => navigate(`/product/${prod._id}`)} style={{cursor: 'pointer'}}>
+                  <div className="product-card" style={{ transition: "all 0.3s ease" }}>
+                    <div className="product-img-wrapper" style={{ overflow: "hidden", position: "relative", paddingBottom: "130%", backgroundColor: "#f9f9f9" }}>
+                      {imgSource ? (
+                        <img src={imgSource} alt={prod.title} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.4s ease" }} />
+                      ) : (
+                        <span style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>No Image</span>
+                      )}
+                    </div>
+                    <div className="product-info" style={{ marginTop: "15px", textAlign: "center" }}>
+                      <div className="product-price" style={{ fontWeight: "600", marginBottom: "5px" }}>{prodCurrency} {prodPrice.toFixed(2)}</div>
+                      <div className="product-name" style={{ fontSize: "0.95rem", color: "#666", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", padding: "0 10px" }}>{prod.title}</div>
+                      <div className="product-rating" style={{ fontSize: "0.8rem", color: "#000", marginTop: "5px" }}>★★★★☆</div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+        </div>
+      )}
     </div>
   );
 };

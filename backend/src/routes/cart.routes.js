@@ -1,6 +1,6 @@
 import express from "express";
 import { protect } from "../middleware/auth.middleware.js";
-import { getCart, addToCart, removeFromCart, clearCart } from "../controllers/cart.controller.js";
+import { getCart, addToCart, removeFromCart, clearCart, updateCartItemQuantity } from "../controllers/cart.controller.js";
 
 const router = express.Router();
 
@@ -31,5 +31,12 @@ router.delete("/remove/:itemId", protect, removeFromCart);
  * @access Private
  */
 router.delete("/clear", protect, clearCart);
+
+/**
+ * @route PUT /api/cart/update/:itemId
+ * @description Update cart item quantity
+ * @access Private
+ */
+router.put("/update/:itemId", protect, updateCartItemQuantity);
 
 export default router;

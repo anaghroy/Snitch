@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { getCart, addToCart, removeFromCart, clearCart } from "../service/cart.api";
+import { getCart, addToCart, removeFromCart, clearCart, updateCartItemQuantity } from "../service/cart.api";
 import { setCart, setCartLoading } from "../state/cart.slice";
 
 export const useCart = () => {
@@ -67,5 +67,22 @@ export const useCart = () => {
     }
   }
 
-  return { handleGetCart, handleAddToCart, handleRemoveFromCart, handleClearCart };
+  async function handleUpdateQuantity(itemId, quantity) {
+    if (quantity < 1) return;
+    dispatch(setCartLoading(true));
+    try {
+      const data = await updateCartItemQuantity(itemId, quantity);
+      if (data.success) {
+        dispatch(setCart(data.cart));
+      }
+      return data;
+    } catch (error) {
+      console.error("Failed to update quantity", error);
+      throw error;
+    } finally {
+      dispatch(setCartLoading(false));
+    }
+  }
+
+  return { handleGetCart, handleAddToCart, handleRemoveFromCart, handleClearCart, handleUpdateQuantity };
 };

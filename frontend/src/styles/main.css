@@ -2697,7 +2697,7 @@ body {
   background: none;
   border: none;
   padding: 0.4rem 0.6rem;
-  cursor: not-allowed;
+  cursor: pointer;
   color: #555;
 }
 .checkout-container .cart-layout .cart-left .cart-items-list .cart-item-row .item-quantity .qty-controls button:hover:not(:disabled) {

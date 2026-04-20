@@ -120,12 +120,12 @@
               align-items: center;
               border: 1px solid #ddd;
               border-radius: 2px;
-              
+                            
               button {
                 background: none;
                 border: none;
                 padding: 0.4rem 0.6rem;
-                cursor: not-allowed; // It's disabled atm
+                cursor: pointer;
                 color: #555;
                 &:hover:not(:disabled) { background: #f0f0f0; }
               }

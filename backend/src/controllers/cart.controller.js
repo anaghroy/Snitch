@@ -120,3 +120,39 @@ export async function clearCart(req, res) {
   }
 }
 
+export async function updateCartItemQuantity(req, res) {
+  try {
+    const userId = req.user._id;
+    const { itemId } = req.params;
+    const { quantity } = req.body;
+
+    const qty = Number(quantity);
+    if (isNaN(qty) || qty < 1) {
+      return res.status(400).json({ message: "Valid quantity is required" });
+    }
+
+    let cart = await Cart.findOne({ user: userId });
+    if (!cart) {
+      return res.status(404).json({ message: "Cart not found" });
+    }
+
+    const item = cart.items.find(i => i._id.toString() === itemId);
+    if (!item) {
+        return res.status(404).json({ message: "Item not found in cart" });
+    }
+
+    item.quantity = qty;
+    await cart.save();
+
+    const populatedCart = await Cart.findById(cart._id).populate("items.product");
+
+    res.status(200).json({
+      success: true,
+      message: "Cart item quantity updated",
+      cart: populatedCart,
+    });
+  } catch (error) {
+    console.error("Error updating cart item quantity:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}

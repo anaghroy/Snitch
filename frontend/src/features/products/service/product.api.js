@@ -40,3 +40,8 @@ export async function addProductVariant(productId, formData) {
     })
     return response.data
 }
+
+export async function getSimilarProducts(id) {
+    const response = await productApiInstance.get(`/${id}/similar`)
+    return response.data
+}

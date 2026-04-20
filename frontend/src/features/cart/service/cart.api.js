@@ -29,3 +29,8 @@ export async function clearCart() {
   const response = await cartApiInstance.delete("/clear");
   return response.data;
 }
+
+export async function updateCartItemQuantity(itemId, quantity) {
+  const response = await cartApiInstance.put(`/update/${itemId}`, { quantity });
+  return response.data;
+}

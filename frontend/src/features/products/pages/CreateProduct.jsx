@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { useProduct } from '../hook/useProduct';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Type, AlignLeft, DollarSign, Image as ImageIcon, Briefcase, Globe, Loader2, Sparkles, Upload } from 'lucide-react';
+import { X, Type, AlignLeft, DollarSign, Image as ImageIcon, Briefcase, Globe, Loader2, Sparkles, Upload, List } from 'lucide-react';
 
 const CreateProduct = () => {
   const { user, loading: authLoading } = useSelector((state) => state.auth);
@@ -17,6 +17,7 @@ const CreateProduct = () => {
     priceAmount: '',
     priceCurrency: 'INR',
     brand: '',
+    category: '',
   });
   const [images, setImages] = useState([]); // Array of { file: File, preview: string }
   const [submitting, setSubmitting] = useState(false);
@@ -86,6 +87,7 @@ const CreateProduct = () => {
       payload.append('title', formData.title);
       payload.append('description', formData.description);
       payload.append('brand', formData.brand);
+      payload.append('category', formData.category);
       payload.append('priceAmount', formData.priceAmount);
       payload.append('priceCurrency', formData.priceCurrency);
 
@@ -169,6 +171,19 @@ const CreateProduct = () => {
                 minLength={3}
               />
             </div>
+          </div>
+
+          <div className="cp-field">
+            <label><List size={16} /> Category</label>
+            <input
+              type="text"
+              name="category"
+              placeholder="e.g., Shirts, Casual, Winter Wear"
+              value={formData.category}
+              onChange={handleChange}
+              required
+              minLength={3}
+            />
           </div>
 
           <div className="cp-field">

@@ -8,9 +8,10 @@ import { FaShippingFast, FaCreditCard, FaHeadset } from 'react-icons/fa';
 import { getCurrencySymbol } from "../../../utils/currency";
 
 const Checkout = () => {
-  const { handleRemoveFromCart, handleClearCart, handleGetCart } = useCart();
+  const { handleRemoveFromCart, handleClearCart, handleGetCart, handleUpdateQuantity } = useCart();
   const { cart, loading } = useSelector((state) => state.cart);
   const [removingId, setRemovingId] = useState(null);
+  const [updatingId, setUpdatingId] = useState(null);
 
   // Ensure cart is fetched if empty on mount
   useEffect(() => {
@@ -33,6 +34,19 @@ const Checkout = () => {
   const onClear = async () => {
     if (window.confirm("Are you sure you want to clear your cart?")) {
       await handleClearCart();
+    }
+  };
+
+  const onUpdateQuantity = async (itemId, currentQty, amount) => {
+    const newQty = currentQty + amount;
+    if (newQty < 1) return;
+    setUpdatingId(itemId);
+    try {
+      await handleUpdateQuantity(itemId, newQty);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setUpdatingId(null);
     }
   };
 
@@ -125,9 +139,15 @@ const Checkout = () => {
 
                       <div className="item-quantity">
                         <div className="qty-controls">
-                          <button disabled><Minus size={14}/></button>
+                          <button 
+                            disabled={updatingId === item._id || item.quantity <= 1} 
+                            onClick={() => onUpdateQuantity(item._id, item.quantity, -1)}
+                          ><Minus size={14}/></button>
                           <span>{item.quantity}</span>
-                          <button disabled><Plus size={14}/></button>
+                          <button 
+                            disabled={updatingId === item._id} 
+                            onClick={() => onUpdateQuantity(item._id, item.quantity, 1)}
+                          ><Plus size={14}/></button>
                         </div>
                       </div>
 

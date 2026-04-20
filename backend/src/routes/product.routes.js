@@ -1,6 +1,6 @@
 import express from "express";
 import { protect, isSeller } from "../middleware/auth.middleware.js";
-import { createProduct, getSellerProducts, getAllProducts, getProductById, addProductVariant } from "../controllers/product.controller.js";
+import { createProduct, getSellerProducts, getAllProducts, getProductById, addProductVariant, getSimilarProducts } from "../controllers/product.controller.js";
 import multer from "multer";
 const router = express.Router();
 
@@ -43,5 +43,11 @@ router.get("/:id", getProductById);
  * @access Private (Seller only)
  */
 router.post("/:productId/variants", protect, isSeller, upload.array('images', 7), addProductVariant)
+/**
+ * @route GET /api/products/:id/similar
+ * @description Get similar products based on category/brand
+ * @access Public
+ */
+router.get("/:id/similar", getSimilarProducts);
 
 export default router;

@@ -132,3 +132,28 @@ export async function addProductVariant(req, res) {
     product,
   });
 }
+
+export async function getSimilarProducts(req, res) {
+  try {
+    const productId = req.params.id;
+    const currentProduct = await productModel.findById(productId);
+    
+    if (!currentProduct) {
+      return res.status(404).json({ message: "Product not found", success: false });
+    }
+
+    const similarProducts = await productModel.find({
+      _id: { $ne: productId },
+      category: { $in: currentProduct.category }
+    }).limit(4);
+
+    res.status(200).json({
+      success: true,
+      products: similarProducts
+    });
+  } catch (error) {
+    console.error("Error fetching similar products:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
