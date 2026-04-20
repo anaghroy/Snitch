@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router";
 import { useProduct } from "../hook/useProduct";
 import { useCart } from "../../cart/hook/useCart";
+import { useWishlist } from "../../wishlist/hook/useWishlist";
+import { useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Thumbs } from "swiper/modules";
 import { Heart, GitCompare } from 'lucide-react';
@@ -20,6 +22,8 @@ const ProductDetails = () => {
   const navigate = useNavigate();
   const { handleGetProductById, handleGetSimilarProducts } = useProduct();
   const { handleAddToCart } = useCart();
+  const { handleToggleWishlistItem } = useWishlist();
+  const wishlist = useSelector(state => state.wishlist.wishlist);
 
   const [product, setProduct] = useState(null);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -107,6 +111,19 @@ const ProductDetails = () => {
       setAddingToCart(false);
     }
   };
+
+  const onToggleWishlist = async () => {
+    if (!product) return;
+    try {
+      await handleToggleWishlistItem(product._id);
+    } catch (e) {
+      alert("Failed to update wishlist");
+    }
+  };
+
+  const isWishlisted = wishlist?.items?.some(item => 
+    item.product === product?._id || item.product?._id === product?._id
+  );
 
   if (!product) {
     return (
@@ -311,8 +328,8 @@ const ProductDetails = () => {
           </div>
 
           <div className="actions-secondary">
-            <button>
-              <Heart size={16} /> Browse Wishlist
+            <button onClick={onToggleWishlist} style={{ color: isWishlisted ? "#e24e4e" : "inherit" }}>
+              <Heart size={16} fill={isWishlisted ? "#e24e4e" : "transparent"} /> {isWishlisted ? "Remove from Wishlist" : "Browse Wishlist"}
             </button>
             <button>
               <GitCompare size={16} /> Add to compare

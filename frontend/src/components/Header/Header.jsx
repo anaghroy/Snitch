@@ -4,15 +4,25 @@ import { Search, User, Heart, ShoppingBag, LogOut } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../features/auth/service/auth.api';
 import { setUser } from '../../features/auth/state/auth.slice';
+import { useWishlist } from '../../features/wishlist/hook/useWishlist';
 import lightLogo from "../../assets/images/dark-logo.png";
 
 const Header = ({ style }) => {
   const cart = useSelector((state) => state.cart.cart);
+  const wishlist = useSelector((state) => state.wishlist.wishlist);
   const userObj = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { handleGetWishlist } = useWishlist();
+
+  React.useEffect(() => {
+    if (!wishlist && userObj) {
+      handleGetWishlist();
+    }
+  }, [wishlist, userObj]);
 
   const cartItemCount = cart?.items?.reduce((total, item) => total + item.quantity, 0) || 0;
+  const wishlistItemCount = wishlist?.items?.length || 0;
 
   const handleLogout = async () => {
     try {
@@ -47,17 +57,17 @@ const Header = ({ style }) => {
       </div>
       <div className="header-right">
         <button className="icon-btn">
-          <Search size={22} />
+          <Search size={22} color="#111" />
         </button>
-        <Link to="/seller/dashboard" className="icon-btn" style={{color: 'inherit'}}>
-          <User size={22} />
+        <Link to="/seller/dashboard" className="icon-btn">
+          <User size={22} color="#111" />
         </Link>
-        <button className="icon-btn">
-          <Heart size={22} />
-          <span className="badge">0</span>
-        </button>
-        <Link to="/checkout" className="icon-btn" style={{color: 'inherit', display: 'flex', alignItems: 'center'}}>
-          <ShoppingBag size={22} />
+        <Link to="/wishlist" className="icon-btn">
+          <Heart size={22} color="#111" />
+          <span className="badge">{wishlistItemCount}</span>
+        </Link>
+        <Link to="/checkout" className="icon-btn" style={{display: 'flex', alignItems: 'center'}}>
+          <ShoppingBag size={22} color="#111" />
           <span className="badge">{cartItemCount}</span>
         </Link>
         {userObj && (

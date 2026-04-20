@@ -8,6 +8,7 @@ import Dashboard from "../features/products/pages/Dashboard";
 import Home from "../features/products/pages/Home";
 import ProductDetails from "../features/products/pages/ProductDetails";
 import Checkout from "../features/products/pages/Checkout";
+import Wishlist from "../features/products/pages/Wishlist";
 import SellerProductDetails from "../features/products/pages/SellerProductDetails";
 
 export const routes = createBrowserRouter([
@@ -26,6 +27,10 @@ export const routes = createBrowserRouter([
             {
                 path: "/checkout",
                 element: <Checkout />
+            },
+            {
+                path: "/wishlist",
+                element: <Wishlist />
             }
         ]
     },
