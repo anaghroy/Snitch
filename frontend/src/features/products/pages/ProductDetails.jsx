@@ -10,6 +10,7 @@ import { Heart, GitCompare, ArrowLeft } from 'lucide-react';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import Header from "../../../components/Header/Header";
 import LoadingLines from "../../../components/ui/LoadingLines";
+import ImageZoom from "../../../components/ui/ImageZoom";
 import { getCurrencySymbol } from "../../../utils/currency";
 
 
@@ -221,7 +222,7 @@ const ProductDetails = () => {
             {images.map((img, i) => (
               <SwiperSlide key={`main-${i}`}>
                 {img.url ? (
-                  <img src={img.url} alt={`${product.title} ${i}`} />
+                  <ImageZoom src={img.url} alt={`${product.title} ${i}`} />
                 ) : (
                   <span>No Image</span>
                 )}
