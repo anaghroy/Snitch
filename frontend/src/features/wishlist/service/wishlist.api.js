@@ -11,11 +11,11 @@ const wishlistApiInstance = axios.create({
 });
 
 export async function getWishlist() {
-  const response = await wishlistApiInstance.get("/");
+  const response = await wishlistApiInstance.get("/api/wishlist/");
   return response.data;
 }
 
 export async function toggleWishlistItem(productId) {
-  const response = await wishlistApiInstance.post("/toggle", { productId });
+  const response = await wishlistApiInstance.post("/api/wishlist/toggle", { productId });
   return response.data;
 }
