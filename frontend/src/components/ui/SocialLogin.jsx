@@ -2,14 +2,15 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const SocialLogin = ({ variants }) => {
+  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
   // In actual implementation, these functions would redirect to OAuth endpoints
   const handleGoogleLogin = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL || "http://localhost:3000/api/auth"}/google`;
-  };
+  window.location.href = `${API_BASE}/api/auth/google`;
+};
 
-  const handleGithubLogin = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL || "http://localhost:3000/api/auth"}/github`;
-  };
+const handleGithubLogin = () => {
+  window.location.href = `${API_BASE}/api/auth/github`;
+};
 
   return (
     <>
