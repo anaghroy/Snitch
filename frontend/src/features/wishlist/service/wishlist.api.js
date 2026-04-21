@@ -1,9 +1,10 @@
 import axios from "axios";
 
+const BASE_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+
 const wishlistApiInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL
-    ? import.meta.env.VITE_API_URL.replace("/products", "/wishlist")
-    : "http://localhost:3000/api/wishlist",
+  baseURL: `${BASE_URL}/wishlist`,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -11,11 +12,11 @@ const wishlistApiInstance = axios.create({
 });
 
 export async function getWishlist() {
-  const response = await wishlistApiInstance.get("/api/wishlist/");
+  const response = await wishlistApiInstance.get("/");
   return response.data;
 }
 
 export async function toggleWishlistItem(productId) {
-  const response = await wishlistApiInstance.post("/api/wishlist/toggle", { productId });
+  const response = await wishlistApiInstance.post("/toggle", { productId });
   return response.data;
 }
