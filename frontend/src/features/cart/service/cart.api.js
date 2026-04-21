@@ -1,12 +1,13 @@
 import axios from "axios";
 
 const cartApiInstance = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api/cart",
-    withCredentials: true,
-    headers: {
-        "Content-Type": "application/json",
-    },
-})
+  baseURL: "/api/cart",
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
 
 export async function getCart() {
   const response = await cartApiInstance.get("/");
