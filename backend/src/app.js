@@ -10,6 +10,11 @@ import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Strategy as GitHubStrategy } from "passport-github2";
 import { config } from "./config/config.js";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -44,13 +49,14 @@ passport.use(new GitHubStrategy({
     return done(null, profile);
 }));
 
-app.get("/", (_req, res) => {
-    res.status(200).json({ message: "Server is running" });
-});
-
 app.use("/api/auth", authRouter);
 app.use("/api/products", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/wishlist", wishlistRouter);
+
+// Serve static frontend files
+app.use(express.static(path.join(__dirname, "../public")));
+
+
 
 export default app;

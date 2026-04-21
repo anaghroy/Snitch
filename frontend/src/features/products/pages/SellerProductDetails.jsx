@@ -161,7 +161,7 @@ const SellerProductDetails = () => {
         <div className="metric-card">
           <span className="label">TOTAL SALES</span>
           <div className="metric-value">
-            <span className="value">$12,480</span>
+            <span className="value">₹12,480</span>
             <span className="trend positive">+12%</span>
           </div>
         </div>

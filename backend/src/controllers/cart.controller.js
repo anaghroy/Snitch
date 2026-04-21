@@ -1,5 +1,6 @@
 import Cart from "../models/cart.model.js";
 import Product from "../models/product.model.js";
+import { stockOfVariant } from "../dao/product.dao.js";
 
 export async function getCart(req, res) {
   try {
@@ -35,6 +36,8 @@ export async function addToCart(req, res) {
       return res.status(404).json({ message: "Product not found" });
     }
 
+    const availableStock = await stockOfVariant(productId, variantId);
+
     let cart = await Cart.findOne({ user: userId });
     if (!cart) {
       cart = new Cart({ user: userId, items: [] });
@@ -44,9 +47,21 @@ export async function addToCart(req, res) {
       (item) => item.product.toString() === productId && item.variantId === variantId
     );
 
+    let newTotalQty = qty;
+    if (itemIndex > -1) {
+      newTotalQty = cart.items[itemIndex].quantity + qty;
+    }
+
+    if (availableStock !== null && newTotalQty > availableStock) {
+        return res.status(400).json({ 
+            message: `Not enough stock. Only ${availableStock} items available.`, 
+            availableStock 
+        });
+    }
+
     if (itemIndex > -1) {
       // Product exists, update quantity
-      cart.items[itemIndex].quantity += qty;
+      cart.items[itemIndex].quantity = newTotalQty;
     } else {
       // Product does not exist, add it
       cart.items.push({ product: productId, quantity: qty, variantId, attributes });
@@ -139,6 +154,15 @@ export async function updateCartItemQuantity(req, res) {
     const item = cart.items.find(i => i._id.toString() === itemId);
     if (!item) {
         return res.status(404).json({ message: "Item not found in cart" });
+    }
+
+    const availableStock = await stockOfVariant(item.product.toString(), item.variantId || 'base');
+    
+    if (availableStock !== null && qty > availableStock) {
+        return res.status(400).json({ 
+            message: `Not enough stock. Only ${availableStock} items available.`,
+            availableStock 
+        });
     }
 
     item.quantity = qty;

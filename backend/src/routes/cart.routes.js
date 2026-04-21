@@ -1,6 +1,7 @@
 import express from "express";
 import { protect } from "../middleware/auth.middleware.js";
 import { getCart, addToCart, removeFromCart, clearCart, updateCartItemQuantity } from "../controllers/cart.controller.js";
+import { validateAddToCart } from "../validator/cart.validator.js";
 
 const router = express.Router();
 
@@ -16,7 +17,7 @@ router.get("/", protect, getCart);
  * @description Add product to cart
  * @access Private
  */
-router.post("/add", protect, addToCart);
+router.post("/add", protect, validateAddToCart, addToCart);
 
 /**
  * @route DELETE /api/cart/remove/:itemId
