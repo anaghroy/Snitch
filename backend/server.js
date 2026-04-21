@@ -1,7 +1,7 @@
+import { config } from "./src/config/config.js"
 import app from "./src/app.js"
 import connectDB from "./src/config/database.js"
 import { connectRedis } from "./src/config/redis.js"
-import { config } from "./src/config/config.js"
 
 await connectDB()
 await connectRedis()
