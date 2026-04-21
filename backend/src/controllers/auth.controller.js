@@ -114,7 +114,7 @@ export const updateProfile = async (req, res) => {
         fullname: user.fullname,
         role: user.role,
         photo: user.photo,
-      }
+      },
     });
   } catch (error) {
     console.error(error);
@@ -155,7 +155,7 @@ export const googleCallback = async (req, res) => {
       await user.save();
     }
 
-    res.redirect("http://localhost:5173");
+    res.redirect(process.env.CLIENT_URL);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error during Google auth" });
@@ -175,7 +175,10 @@ export const githubCallback = async (req, res) => {
 
     let user = await userModel.findOne({ email });
 
-    const photo = profile.photos && profile.photos.length > 0 ? profile.photos[0].value : "";
+    const photo =
+      profile.photos && profile.photos.length > 0
+        ? profile.photos[0].value
+        : "";
 
     if (!user) {
       user = await userModel.create({
@@ -198,7 +201,7 @@ export const githubCallback = async (req, res) => {
       if (changed) await user.save();
     }
 
-    res.redirect("http://localhost:5173");
+    res.redirect(process.env.CLIENT_URL);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error during GitHub auth" });
