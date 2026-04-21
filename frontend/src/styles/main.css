@@ -2538,6 +2538,95 @@ body {
   cursor: not-allowed;
 }
 
+/* ----- SHOP BY CATEGORY (MYNTRA STYLE) ----- */
+.shop-by-category-section {
+  max-width: 1300px;
+  margin: 4rem auto 5rem;
+  padding: 0 2rem;
+}
+.shop-by-category-section .section-header-left {
+  margin-bottom: 2rem;
+}
+.shop-by-category-section .section-header-left h2 {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  color: #3e4152;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.shop-by-category-section .category-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+.shop-by-category-section .category-grid::-webkit-scrollbar {
+  height: 6px;
+}
+.shop-by-category-section .category-grid::-webkit-scrollbar-thumb {
+  background: #e0e0e0;
+  border-radius: 4px;
+}
+.shop-by-category-section .category-grid .category-card {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+.shop-by-category-section .category-grid .category-card .img-wrapper {
+  width: 100%;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background: #f7f7f7;
+}
+.shop-by-category-section .category-grid .category-card .img-wrapper img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.shop-by-category-section .category-grid .category-card:hover .img-wrapper img {
+  transform: scale(1.05);
+}
+.shop-by-category-section .category-grid .category-card .card-info-box {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  margin: 0 5%;
+  margin-bottom: 15px;
+  background: linear-gradient(135deg, #d35441 0%, #a82e1c 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+.shop-by-category-section .category-grid .category-card .card-info-box .cat-title {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  margin-bottom: 0.2rem;
+}
+.shop-by-category-section .category-grid .category-card .card-info-box .cat-discount {
+  font-family: var(--font-sub-heading);
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin-bottom: 0.1rem;
+}
+.shop-by-category-section .category-grid .category-card .card-info-box .cat-shop {
+  font-family: var(--font-sub-body);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
 .checkout-container {
   font-family: var(--font-body);
   max-width: 1200px;

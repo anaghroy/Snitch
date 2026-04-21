@@ -3,6 +3,7 @@ import Header from "../../../components/Header/Header";
 import { useProduct } from "../hook/useProduct";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import ShopByCategory from "../components/ShopByCategory";
 import {
   Search,
   User,
@@ -91,6 +92,9 @@ const Home = () => {
             ))}
           </Swiper>
         </section>
+
+        {/* Shop By Category (Myntra Layout) */}
+        <ShopByCategory />
 
         {/* Featured Products Swiper Category */}
         <section className="featured-section">
