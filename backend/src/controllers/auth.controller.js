@@ -34,6 +34,20 @@ async function sendTokenResponse(user, res, message) {
     },
   });
 }
+function sendTokenAndRedirect(user, res) {
+  const token = jwt.sign({ id: user._id }, config.JWT_SECRET, {
+    expiresIn: "7d",
+  });
+
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
+
+  res.redirect(`${process.env.CLIENT_URL}/auth/success`);
+}
 
 export const register = async (req, res) => {
   const { email, contact, password, fullname, isSeller } = req.body;
@@ -155,7 +169,7 @@ export const googleCallback = async (req, res) => {
       await user.save();
     }
 
-    res.redirect(process.env.CLIENT_URL);
+    return sendTokenAndRedirect(user, res);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error during Google auth" });
@@ -201,7 +215,7 @@ export const githubCallback = async (req, res) => {
       if (changed) await user.save();
     }
 
-    res.redirect(process.env.CLIENT_URL);
+    return sendTokenAndRedirect(user, res);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error during GitHub auth" });
