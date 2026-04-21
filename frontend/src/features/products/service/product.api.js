@@ -1,15 +1,15 @@
 import axios from "axios"
 
 const productApiInstance = axios.create({
-  baseURL: "/api/products",
-  withCredentials: true,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+    baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000",
+    withCredentials: true,
+    headers: {
+        "Content-Type": "application/json",
+    },
+})
 
 export async function createProduct(formData) {
-    const response = await productApiInstance.post("/create", formData, {
+    const response = await productApiInstance.post("/api/products/create", formData, {
         headers: {
             "Content-Type": "multipart/form-data"
         }
@@ -18,22 +18,22 @@ export async function createProduct(formData) {
 }
 
 export async function getSellerProducts() {
-    const response = await productApiInstance.get("/seller")
+    const response = await productApiInstance.get("/api/products/seller")
     return response.data
 }
 
 export async function getAllProducts() {
-    const response = await productApiInstance.get("/")
+    const response = await productApiInstance.get("/api/products")
     return response.data
 }
 
 export async function getProductById(id) {
-    const response = await productApiInstance.get(`/${id}`)
+    const response = await productApiInstance.get(`/api/products/${id}`)
     return response.data
 }
 
 export async function addProductVariant(productId, formData) {
-    const response = await productApiInstance.post(`/${productId}/variants`, formData, {
+    const response = await productApiInstance.post(`/api/products/${productId}/variants`, formData, {
         headers: {
             "Content-Type": "multipart/form-data"
         }
@@ -42,11 +42,11 @@ export async function addProductVariant(productId, formData) {
 }
 
 export async function getSimilarProducts(id) {
-    const response = await productApiInstance.get(`/${id}/similar`)
+    const response = await productApiInstance.get(`/api/products/${id}/similar`)
     return response.data
 }
 
 export async function searchProducts(query) {
-    const response = await productApiInstance.get(`/search?q=${encodeURIComponent(query)}`)
+    const response = await productApiInstance.get(`/api/products/search?q=${encodeURIComponent(query)}`)
     return response.data
 }
