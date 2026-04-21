@@ -1,12 +1,12 @@
 import axios from "axios"
 
 const productApiInstance = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api/products",
-    withCredentials: true,
-    headers: {
-        "Content-Type": "application/json",
-    },
-})
+  baseURL: "/api/products",
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 export async function createProduct(formData) {
     const response = await productApiInstance.post("/create", formData, {
